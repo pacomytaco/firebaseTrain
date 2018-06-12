@@ -6,7 +6,10 @@ body {
     background-color: aquamarine;
 }
 
-#table {
-    box-sizing: border-box;
+.table {
+    position: relative;
+    left: 100px;
+    width: 900px;
+
 
 }
