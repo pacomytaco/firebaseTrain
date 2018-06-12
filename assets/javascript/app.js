@@ -32,7 +32,9 @@ $("#addTrain").on("click", function (event) {
  frequency = $("#frequency").val().trim(); 
 
 var firstTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years");
-console.log(firstTimeConverted);
+console.log(firstTimeConverted); 
+console.log(moment(nextTrain).format("hh:mm"));
+console.log(tMinutesTillTrain);
 
 var currentTime = moment(); 
 console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
@@ -73,20 +75,39 @@ console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
 database.ref().on("child_added", function(childSnapshot) {
 
-
-    
+  var showFirstTrain = childSnapshot.val().firstTrain
   var showTrainName = childSnapshot.val().trainName
   var showFrequency = childSnapshot.val().frequency
   var showNextTrain = childSnapshot.val().nextTrain
   var showTMinutesTillTrain = childSnapshot.val().tMinutesTillTrain
 
+  var firstTimeConverted = moment(showFirstTrain, "HH:mm").subtract(1, "years");
+  console.log(firstTimeConverted);
+  
+  var currentTime = moment(); 
+  console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+  
+  var diffTime = moment().diff(moment(firstTimeConverted), "minutes"); 
+  console.log("DIFFERENCE IN TIME: " + diffTime);
+  
+  var tRemaining = diffTime % showFrequency;
+  console.log(tRemaining);
+  
+  var tMinutesTillTrain = showFrequency - tRemaining;
+  console.log("MINUTES TILL TRAIN: " + showTMinutesTillTrain);
+  
+  var nextTrain = moment().add(showTMinutesTillTrain, "minutes");
+  console.log("ARRIVAL TIME: " + moment(showNextTrain).format("hh:mm"));
+
+
   console.log(childSnapshot);
   console.log(showTrainName);
   console.log(childSnapshot.val().destination);
-  console.log(childSnapshot.val().firstTrain);
+  console.log(showFirstTrain);
   console.log(showFrequency);
   console.log(showNextTrain);
   console.log(showTMinutesTillTrain);
+  
 
 
   $("#newTrain").append("<tr><th>" + childSnapshot.val().trainName + "</th><th>" +  childSnapshot.val().destination + "</th><th>" + childSnapshot.val().frequency + "</th><th>" + childSnapshot.val().nextTrain + "</th><th" + childSnapshot.val().tMinutesTillTrain + "</th></tr>");
