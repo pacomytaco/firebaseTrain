@@ -58,12 +58,12 @@ console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
     firstTrain: firstTrain,
     frequency: frequency,
     
-    firstTimeConverted: firstTimeConverted,
-    currentTime: currentTime,
-    diffTime: diffTime,
+    // firstTimeConverted: firstTimeConverted,
+    // currentTime: currentTime,
+    // diffTime: diffTime,
     tRemaining: tRemaining,
     tMinutesTillTrain: tMinutesTillTrain,
-    nextTrain: nextTrain,
+    // nextTrain: nextTrain,
 
     dateAdded: firebase.database.ServerValue.TIMESTAMP
   }); //database.ref
@@ -73,11 +73,20 @@ console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
 database.ref().on("child_added", function(childSnapshot) {
 
+
+    
+  var showTrainName = childSnapshot.val().trainName
+  var showFrequency = childSnapshot.val().frequency
+  var showNextTrain = childSnapshot.val().nextTrain
+  var showTMinutesTillTrain = childSnapshot.val().tMinutesTillTrain
+
   console.log(childSnapshot);
-  console.log(childSnapshot.val().trainName);
+  console.log(showTrainName);
   console.log(childSnapshot.val().destination);
   console.log(childSnapshot.val().firstTrain);
-  console.log(childSnapshot.val().frequency);
+  console.log(showFrequency);
+  console.log(showNextTrain);
+  console.log(showTMinutesTillTrain);
 
 
   $("#newTrain").append("<tr><th>" + childSnapshot.val().trainName + "</th><th>" +  childSnapshot.val().destination + "</th><th>" + childSnapshot.val().frequency + "</th><th>" + childSnapshot.val().nextTrain + "</th><th" + childSnapshot.val().tMinutesTillTrain + "</th></tr>");
@@ -86,39 +95,6 @@ database.ref().on("child_added", function(childSnapshot) {
 });
 
 
-//extra stuff
-
-// var firstTimeConverted = "";
-// var currentTime = "";
-// var diffTime = "";
-// var tRemaining = "";
-// var nextArrival = "";
-// var minAway = ""
-// var nextArrivalFormatted = "";
-
-//   firstTimeConverted = moment(firstTrain, "hh:mm").subtract(1, "years");
-//   currentTime = moment();
-//   diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-//   tRemaining = diffTime % frequency;
-//   minAway = frequency - tRemaining;
-//   nextArrival = moment().add(minAway, "minutes");
-//   nextArrivalFormatted = moment(nextArrival).format("hh:mm");
-
-//   console.log(currentTime);
-//   console.log(diffTime);
-//   console.log(tRemaining);
-//   console.log(minAway);
-//   console.log(nextArrival);
-
-//   database.ref().push({
-//     firstTimeConverted: firstTimeConverted,
-//     currentTime: currentTime,
-//     diffTime: diffTime,
-//     tRemaining: tRemaining,
-//     nextArrival: nextArrival, 
-//     minAway: minAway,
-//     nextArrivalFormatted: nextArrivalFormatted 
-//   });//database.ref
 
 
 
